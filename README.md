@@ -19,10 +19,15 @@ I know there are tools online to help me categorize my transactions, but my main
 Some Areas I need to improve on:
 1. Naming Conventions:
 2. Commiting every day I finish working
+3. Implimenting Unit Tests and exceptions so I can test each function independantly
 
-This commit marks the Minimal Viable Product for this project. Testing is completed and it works as intended. My goal is to continue updating this project, so looking over your finances can be easy and effective.
+This commit marks the Minimal Viable Product for this project AND works after the first bug found. Testing is completed and it works FULLY as intended. My goal is to continue updating this project, so looking over your finances can be easy, effective and highly customizable.
 
 Some future features I would like to include are:
 1. Creating a graph or series of graphs from the final data list
 2. Seemless editing, going forwards or backwards into input screens if user makes a mistake
 3. Ability to edit category database straight from application, i.e not going into the csv file to change it
+4. Hitting Cancel does something, rather than causing an error
+5. Making the User Input Box bigger, especially the font
+6. After each new category inputted, it will give it as an option for the next time the user is asked which category does a transaction belong to
+7. When inputting a transaction one time, it will remember what that transaction is so it doesnt have to keep inputting it over and over again

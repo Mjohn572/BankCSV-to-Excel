@@ -66,7 +66,7 @@ def write_to_categories_txt(categories_to_add: list, categories_csv_list: list) 
     write_file(categories_csv_list, "Enter the file to write over csv database")
 
 
-def write_file(categories_csv_list: list, enter_file_name: str) -> None:
+def write_file(contents_to_write: list, enter_file_name: str) -> None:
     
     # Opens a file explorer so the user may choose the file to upload 
     file_path = filedialog.askopenfilename(title=enter_file_name,
@@ -84,18 +84,20 @@ def write_file(categories_csv_list: list, enter_file_name: str) -> None:
         # Putting the users desired path and the name together
         file_path += "/"
         file_path += default_file_name
-        print(file_path)
     
     #Opening file to write over
     file_open = open(file_path, "w")
 
     # Writing out full new category database
-    for indx, line in enumerate(categories_csv_list):
-        for item in line:
-            file_open.write(item)
-            file_open.write(',')
-        if indx != len(categories_csv_list) - 1:
+    for indx, line in enumerate(contents_to_write):
+    # Join the items in the line with commas
+        file_open.write(','.join(line))
+
+    # Add a newline unless it's the last line
+        if indx != (len(contents_to_write) - 1):
             file_open.write('\n')
+
+        
 
 def category_list(cleaned_list: list) -> list:
     """
@@ -134,7 +136,8 @@ def category_list(cleaned_list: list) -> list:
 
                     # Makes category_to_append the last item in the list, which is the category
                     category_to_append = line[len(line) - 1]
-                    print(category_to_append)
+                    
+                    # Making the transaction looked cleaned up
                     transaction_to_append = item
                     break
 
