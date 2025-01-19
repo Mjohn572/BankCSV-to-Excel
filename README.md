@@ -31,3 +31,4 @@ Some future features I would like to include are:
 5. Making the User Input Box bigger, especially the font
 6. After each new category inputted, it will give it as an option for the next time the user is asked which category does a transaction belong to
 7. When inputting a transaction one time, it will remember what that transaction is so it doesnt have to keep inputting it over and over again
+8. IF excluding a transaction, can have a conditional to exclude it in future spreadsheets.

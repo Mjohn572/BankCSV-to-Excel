@@ -90,14 +90,12 @@ def write_file(contents_to_write: list, enter_file_name: str) -> None:
 
     # Writing out full new category database
     for indx, line in enumerate(contents_to_write):
-    # Join the items in the line with commas
-        file_open.write(','.join(line))
-
-    # Add a newline unless it's the last line
+    # Write only the items in the line joined by commas
+        file_open.write(','.join([str(item) for item in line]))
+    
+        # Add a newline unless it's the last line
         if indx != (len(contents_to_write) - 1):
             file_open.write('\n')
-
-        
 
 def category_list(cleaned_list: list) -> list:
     """
@@ -112,6 +110,9 @@ def category_list(cleaned_list: list) -> list:
 
     # Retrieve category database file
     categories_txt_list = read_file("Enter the Category Database ")
+    
+    categories_txt_list = clean_database_list(categories_txt_list)
+    
 
     # Retreieve the index of the cleaned_list
     for i in range(len(cleaned_list)):
@@ -204,20 +205,34 @@ def user_input(transaction: str, categories: list) -> list:
     return user_answer
 
 
-def clean_list(file_contents: list) -> list:
+def clean_initial_list(file_contents: list) -> list:
     """
     Removing all of the money coming in and blank spaces in remaining expenses.
     """
     
-    cleaned_list = [] # Instantiating the final list
+    cleaned_list = [] # Instantiating the cleaned list
 
     # Indexing through each line of the file contents
     for i in range(len(file_contents)):
         # If the 3rd line has nothing in it, it means it is a money deposit and not needed for this program
         if file_contents[i][2] != '':
-            # Adds to the final list
+            # Adds to the cleaned list
             cleaned_list.append(file_contents[i])
 
+    return cleaned_list
+
+def clean_database_list(file_contents: list) -> list:
+
+    cleaned_list = []
+    
+    for line in file_contents:
+        cleaned_list_line = []
+        for item in line:
+            str(item)
+            if item:
+                cleaned_list_line.append(item)
+        cleaned_list.append(cleaned_list_line)
+    
     return cleaned_list
 
 def read_file(enter_file_name: str) -> list:
@@ -257,9 +272,9 @@ def main() -> None:
     #Takes the contents of the file and adds it to a list where every index is a line
     file_contents = read_file("Enter the Bank Transaction List")
 
-    cleaned_list = clean_list(file_contents)
+    cleaned_initial_list = clean_initial_list(file_contents)
 
-    list_w_categories = category_list(cleaned_list)
+    list_w_categories = category_list(cleaned_initial_list)
 
     write_final_list(list_w_categories)
 
