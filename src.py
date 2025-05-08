@@ -109,7 +109,7 @@ def category_list(cleaned_list: list) -> list:
     categories_to_write = []
 
     # Retrieve category database file
-    categories_txt_list = read_file("Enter the Category Database ")
+    categories_txt_list = read_file("Enter the Category Database ", "Database")
     
     categories_txt_list = clean_database_list(categories_txt_list)
     
@@ -204,23 +204,25 @@ def user_input(transaction: str, categories: list) -> list:
 
     return user_answer
 
-
-def clean_initial_list(file_contents: list) -> list:
-    """
-    Removing all of the money coming in and blank spaces in remaining expenses.
-    """
+"""
+def clean_initial_list(file_contents: list, debitOrCredit: str) -> list:
+    
+    #Removing all of the money coming in and blank spaces in remaining expenses.
+    
     
     cleaned_list = [] # Instantiating the cleaned list
 
     # Indexing through each line of the file contents
     for i in range(len(file_contents)):
+        if(debitOrCredit == "Credit"):
+            if i != 
         # If the 3rd line has nothing in it, it means it is a money deposit and not needed for this program
         if file_contents[i][2] != '':
             # Adds to the cleaned list
             cleaned_list.append(file_contents[i])
 
     return cleaned_list
-
+"""
 def clean_database_list(file_contents: list) -> list:
 
     cleaned_list = []
@@ -235,7 +237,7 @@ def clean_database_list(file_contents: list) -> list:
     
     return cleaned_list
 
-def read_file(enter_file_name: str) -> list:
+def read_file(enter_file_name: str, debitOrCredit: str) -> list:
     """
     To read the file and return its contents
     """
@@ -256,12 +258,60 @@ def read_file(enter_file_name: str) -> list:
     # Indexing through list line by line
     for line in input_file:
         # Splits all lines by the comma and strips 
-        file_list.append(line.strip().split(','))
+        
+        item = line.strip().split(',')
+        if (debitOrCredit == "Debit" or debitOrCredit == "Credit"):
+            if item[2] == '':
+                continue
+
+        if (debitOrCredit == "Credit"):
+            # Runs when item has Province abrev in it
+            if (len(item) == 6):
+                del item[5]
+                del item[4]
+                del item[2]
+            # Runs when item has no Province in it
+            else: 
+                del item[4]
+                del item[3]
+        # TEST
+        print(item)
+        # Add final item to list
+        file_list.append(item)
 
     # Closes file
     file_open.close()
 
     return file_list
+
+import tkinter as tk
+
+def ask_transaction_type() -> str:
+
+    selected_option = None
+
+    def on_select(option):
+        nonlocal selected_option  # Access the outer scope variable
+        selected_option = option
+        root.quit()  # Close the window after selection
+        root.destroy()  # Ensure window is fully destroyed
+        print(f"Selected transaction type: {option}")
+
+    root = tk.Tk()
+    root.title("Select Transaction Type")
+    
+    # Create a button for "Debit"
+    debit_button = tk.Button(root, text="Debit", command=lambda: on_select("Debit"))
+    debit_button.pack(padx=500, pady=50)
+    
+    # Create a button for "Credit"
+    credit_button = tk.Button(root, text="Credit", command=lambda: on_select("Credit"))
+    credit_button.pack(padx=500, pady=50)
+
+    # Run the Tkinter event loop
+    root.mainloop()
+
+    return selected_option
 
 def main() -> None:
     """
@@ -269,12 +319,14 @@ def main() -> None:
     All functions will be called in this function
     """
 
+    debitOrCredit = ask_transaction_type()
+
     #Takes the contents of the file and adds it to a list where every index is a line
-    file_contents = read_file("Enter the Bank Transaction List")
+    file_contents = read_file("Enter the Bank Transaction List", debitOrCredit)
 
-    cleaned_initial_list = clean_initial_list(file_contents)
+    #cleaned_initial_list = clean_initial_list(file_contents)
 
-    list_w_categories = category_list(cleaned_initial_list)
+    list_w_categories = category_list(file_contents)
 
     write_final_list(list_w_categories)
 
